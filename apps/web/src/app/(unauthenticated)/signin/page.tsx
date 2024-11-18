@@ -6,6 +6,7 @@ import { env } from 'next-runtime-env';
 
 import { setupI18nSSR } from '@documenso/lib/client-only/providers/i18n.server';
 import {
+  IS_CREDENTIALS_ENABLED,
   IS_GOOGLE_SSO_ENABLED,
   IS_OIDC_SSO_ENABLED,
   OIDC_PROVIDER_LABEL,
@@ -36,6 +37,7 @@ export default async function SignInPage() {
 
         <SignInForm
           isGoogleSSOEnabled={IS_GOOGLE_SSO_ENABLED}
+          isCredentialsEnabled={IS_CREDENTIALS_ENABLED}
           isOIDCSSOEnabled={IS_OIDC_SSO_ENABLED}
           oidcProviderLabel={OIDC_PROVIDER_LABEL}
         />

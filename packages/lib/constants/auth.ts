@@ -18,6 +18,10 @@ export const IS_OIDC_SSO_ENABLED = Boolean(
     process.env.NEXT_PRIVATE_OIDC_CLIENT_SECRET,
 );
 
+export const IS_CREDENTIALS_ENABLED = Boolean(
+  process.env.NEXT_PRIVATE_IS_CREDENTIALS_ENABLED === 'true',
+);
+
 export const OIDC_PROVIDER_LABEL = process.env.NEXT_PRIVATE_OIDC_PROVIDER_LABEL;
 
 export const USER_SECURITY_AUDIT_LOG_MAP: { [key in UserSecurityAuditLogType]: string } = {

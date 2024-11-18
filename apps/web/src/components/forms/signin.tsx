@@ -71,6 +71,7 @@ export type TSignInFormSchema = z.infer<typeof ZSignInFormSchema>;
 export type SignInFormProps = {
   className?: string;
   initialEmail?: string;
+  isCredentialsEnabled?: boolean;
   isGoogleSSOEnabled?: boolean;
   isOIDCSSOEnabled?: boolean;
   oidcProviderLabel?: string;
@@ -80,6 +81,7 @@ export type SignInFormProps = {
 export const SignInForm = ({
   className,
   initialEmail,
+  isCredentialsEnabled,
   isGoogleSSOEnabled,
   isOIDCSSOEnabled,
   oidcProviderLabel,
@@ -329,68 +331,72 @@ export const SignInForm = ({
           className="flex w-full flex-col gap-y-4"
           disabled={isSubmitting || isPasskeyLoading}
         >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <Trans>Email</Trans>
-                </FormLabel>
+          {isCredentialsEnabled && (
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <Trans>Email</Trans>
+                    </FormLabel>
 
-                <FormControl>
-                  <Input type="email" {...field} />
-                </FormControl>
+                    <FormControl>
+                      <Input type="email" {...field} />
+                    </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <Trans>Password</Trans>
-                </FormLabel>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <Trans>Password</Trans>
+                    </FormLabel>
 
-                <FormControl>
-                  <PasswordInput {...field} />
-                </FormControl>
+                    <FormControl>
+                      <PasswordInput {...field} />
+                    </FormControl>
 
-                <FormMessage />
+                    <FormMessage />
 
-                <p className="mt-2 text-right">
-                  <Link
-                    href="/forgot-password"
-                    className="text-muted-foreground text-sm duration-200 hover:opacity-70"
-                  >
-                    <Trans>Forgot your password?</Trans>
-                  </Link>
-                </p>
-              </FormItem>
-            )}
-          />
+                    <p className="mt-2 text-right">
+                      <Link
+                        href="/forgot-password"
+                        className="text-muted-foreground text-sm duration-200 hover:opacity-70"
+                      >
+                        <Trans>Forgot your password?</Trans>
+                      </Link>
+                    </p>
+                  </FormItem>
+                )}
+              />
 
-          <Button
-            type="submit"
-            size="lg"
-            loading={isSubmitting}
-            className="dark:bg-documenso dark:hover:opacity-90"
-          >
-            {isSubmitting ? <Trans>Signing in...</Trans> : <Trans>Sign In</Trans>}
-          </Button>
+              <Button
+                type="submit"
+                size="lg"
+                loading={isSubmitting}
+                className="dark:bg-documenso dark:hover:opacity-90"
+              >
+                {isSubmitting ? <Trans>Signing in...</Trans> : <Trans>Sign In</Trans>}
+              </Button>
 
-          {(isGoogleSSOEnabled || isPasskeyEnabled || isOIDCSSOEnabled) && (
-            <div className="relative flex items-center justify-center gap-x-4 py-2 text-xs uppercase">
-              <div className="bg-border h-px flex-1" />
-              <span className="text-muted-foreground bg-transparent">
-                <Trans>Or continue with</Trans>
-              </span>
-              <div className="bg-border h-px flex-1" />
-            </div>
+              {(isGoogleSSOEnabled || isPasskeyEnabled || isOIDCSSOEnabled) && (
+                <div className="relative flex items-center justify-center gap-x-4 py-2 text-xs uppercase">
+                  <div className="bg-border h-px flex-1" />
+                  <span className="text-muted-foreground bg-transparent">
+                    <Trans>Or continue with</Trans>
+                  </span>
+                  <div className="bg-border h-px flex-1" />
+                </div>
+              )}
+            </>
           )}
 
           {isGoogleSSOEnabled && (
