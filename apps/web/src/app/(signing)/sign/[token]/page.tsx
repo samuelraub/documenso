@@ -12,7 +12,6 @@ import { getFieldsForToken } from '@documenso/lib/server-only/field/get-fields-f
 import { getIsRecipientsTurnToSign } from '@documenso/lib/server-only/recipient/get-is-recipient-turn';
 import { getRecipientByToken } from '@documenso/lib/server-only/recipient/get-recipient-by-token';
 import { getRecipientSignatures } from '@documenso/lib/server-only/recipient/get-recipient-signatures';
-import { getUserByEmail } from '@documenso/lib/server-only/user/get-user-by-email';
 import { symmetricDecrypt } from '@documenso/lib/universal/crypto';
 import { extractNextHeaderRequestMetadata } from '@documenso/lib/universal/extract-request-metadata';
 import { extractDocumentAuthMethods } from '@documenso/lib/utils/document-auth';
@@ -21,7 +20,6 @@ import { DocumentStatus, SigningStatus } from '@documenso/prisma/client';
 import { DocumentAuthProvider } from './document-auth-provider';
 import { NoLongerAvailable } from './no-longer-available';
 import { SigningProvider } from './provider';
-import { SigningAuthPageView } from './signing-auth-page';
 import { SigningPageView } from './signing-page-view';
 
 export type SigningPageProps = {
@@ -81,14 +79,8 @@ export default async function SigningPage({ params: { token } }: SigningPageProp
     userId: user?.id,
   });
 
-  let recipientHasAccount: boolean | null = null;
-
   if (!isDocumentAccessValid) {
-    recipientHasAccount = await getUserByEmail({ email: recipient?.email })
-      .then((user) => !!user)
-      .catch(() => false);
-
-    return <SigningAuthPageView email={recipient.email} emailHasAccount={!!recipientHasAccount} />;
+    redirect(encodeURI(`/signin?returnTo=/sign/${token}`));
   }
 
   await viewedDocument({

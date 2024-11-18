@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: 'Sign In',
 };
 
-export default async function SignInPage() {
+export default async function SignInPage({ searchParams }: { searchParams: { returnTo: string } }) {
   await setupI18nSSR();
 
   const NEXT_PUBLIC_DISABLE_SIGNUP = env('NEXT_PUBLIC_DISABLE_SIGNUP');
@@ -40,6 +40,7 @@ export default async function SignInPage() {
           isCredentialsEnabled={IS_CREDENTIALS_ENABLED}
           isOIDCSSOEnabled={IS_OIDC_SSO_ENABLED}
           oidcProviderLabel={OIDC_PROVIDER_LABEL}
+          returnTo={searchParams.returnTo}
         />
 
         {NEXT_PUBLIC_DISABLE_SIGNUP !== 'true' && (
